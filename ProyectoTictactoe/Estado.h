@@ -3,7 +3,7 @@
 class Estado
 {
 private:
-	int TAM;
+	int TAM=0;
 	Casilla** lista;
 public:
 	Estado(int t) {
@@ -37,11 +37,26 @@ public:
 	void cambiarCasilla(int f, char c,string v) {
 		for (int i = 0;i < TAM * TAM;i++)
 		{
-			if (lista[i]->getFila() == f, lista[i]->getColumna() == c)
+			if (lista[i]->getFila() == f && lista[i]->getColumna() == c)
 			{
 				lista[i]->setValor(v);
 			}
 		}
+	}
+	Casilla** casillasDisponibles() {
+		Casilla** acciones = new Casilla * [TAM];
+		int ind = 0;
+		for (int i = 0;i < TAM * TAM;i++)
+		{
+			if (lista[i]->getValor()=="_")
+			{
+				acciones[ind] = lista[i];
+				ind++;
+			}
+		}
+	}
+	Casilla**  getLista() {
+		return lista;
 	}
 };
 
