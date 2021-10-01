@@ -5,7 +5,10 @@ int main()
 {
     std::cout << "Hello World!\n";
     Casilla** lista = new Casilla* [3];
-
+    for (int i = 0;i < 3;i++)
+    {
+        lista[i] = new Casilla(i, 'a');
+    }
     for (int i = 0;i < 3;i++)
     {
         lista[i]->mostrarCasilla();
