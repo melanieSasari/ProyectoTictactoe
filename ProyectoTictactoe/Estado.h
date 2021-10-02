@@ -3,7 +3,7 @@
 class Estado
 {
 private:
-	int TAM=0;
+	int TAM;
 	Casilla** lista;
 public:
 	Estado(int t) {
@@ -24,7 +24,7 @@ public:
 	}
 	void mostrarCasillas() {
 		int ind = 0;
-		for (int i = 1;i <= TAM;i++)
+		for (int i = 0;i < TAM;i++)
 		{
 			for (char aux = 'A';aux < 'A' + TAM;aux++)
 			{
@@ -54,6 +54,16 @@ public:
 				ind++;
 			}
 		}
+	}
+	bool hayCasillasDisponibles() {
+		for (int i = 0;i < TAM * TAM;i++)
+		{
+			if (lista[i]->getValor() == "_")
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	Casilla**  getLista() {
 		return lista;
