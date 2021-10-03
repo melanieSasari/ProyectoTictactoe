@@ -187,7 +187,7 @@ int minmax(Estado estadoJuego, int nivel, bool maximo)
             if (estadoJuego.getLista()[i]->getValor() == '_')
             {
                 estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), 'O');
-                aux = max(aux, minmax(estadoJuego, nivel + 1, !maximo));
+                aux = min(aux, minmax(estadoJuego, nivel + 1, maximo));
                 estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), '_');
             }
         }
