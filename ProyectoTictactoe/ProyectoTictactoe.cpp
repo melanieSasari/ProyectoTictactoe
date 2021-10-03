@@ -8,6 +8,9 @@ struct Accion
     int fila;
     char col;
 };
+string jugador;
+string computadora;
+
 int max(int num1, int num2) {
     int result;
     if (num1 > num2) {
@@ -28,9 +31,10 @@ int min(int num1, int num2) {
     }
     return result;
 }
-int utilidad(Estado* estadoJuego)
+
+int utilidad(Estado estadoJuego)
 {
-    Casilla** lista = estadoJuego->getLista();
+    Casilla** lista = estadoJuego.getLista();
     int aux = 0;
     //verificar por filas
     int col = 0;
@@ -115,7 +119,42 @@ int utilidad(Estado* estadoJuego)
     
     return 0;
 }
-int minmax(Estado* estadoJuego, int nivel, bool maximo)
+bool terminalTest(Estado estadoJuego)
+{
+    int puntaje = utilidad(estadoJuego);
+    if (puntaje == 1)
+    {
+        if (jugador == "X")
+        {
+            cout << "Tu ganaste!!!" << endl;
+        }
+        else
+        {
+            cout << "Gano la computadora!!!" << endl;
+        }
+        return true;
+    }
+    if (puntaje == -1)
+    {
+        if (jugador == "O")
+        {
+            cout << "Tu ganaste!!!" << endl;
+        }
+        else
+        {
+            cout << "Gano la computadora!!!" << endl;
+        }
+        return true;
+    }
+    if (estadoJuego.hayCasillasDisponibles() == false)
+    {
+        cout << "Empate!!!" << endl;
+        return true;
+    }
+
+    return false;
+}
+int minmax(Estado estadoJuego, int nivel, bool maximo)
 {
     int puntaje = utilidad(estadoJuego);
     if (puntaje == 1)
@@ -126,7 +165,7 @@ int minmax(Estado* estadoJuego, int nivel, bool maximo)
     {
         return puntaje;
     }
-    if (estadoJuego->hayCasillasDisponibles() == false)
+    if (estadoJuego.hayCasillasDisponibles() == false)
     {
         return 0;
     }
@@ -135,11 +174,11 @@ int minmax(Estado* estadoJuego, int nivel, bool maximo)
         int aux = -1000;
         for (int i = 0;i < tam*tam;i++)
         {
-            if (estadoJuego->getLista()[i]->getValor() == "_")
+            if (estadoJuego.getLista()[i]->getValor() == "_")
             {
-                estadoJuego->cambiarCasilla(estadoJuego->getLista()[i]->getFila(), estadoJuego->getLista()[i]->getColumna(),"X");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(),"X");
                 aux = max(aux, minmax(estadoJuego, nivel + 1, !maximo));
-                estadoJuego->cambiarCasilla(estadoJuego->getLista()[i]->getFila(), estadoJuego->getLista()[i]->getColumna(), "_");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "_");
             }
         }
         return aux;
@@ -149,11 +188,11 @@ int minmax(Estado* estadoJuego, int nivel, bool maximo)
         int aux = 1000;
         for (int i = 0;i < tam * tam;i++)
         {
-            if (estadoJuego->getLista()[i]->getValor() == "_")
+            if (estadoJuego.getLista()[i]->getValor() == "_")
             {
-                estadoJuego->cambiarCasilla(estadoJuego->getLista()[i]->getFila(), estadoJuego->getLista()[i]->getColumna(), "O");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "O");
                 aux = max(aux, minmax(estadoJuego, nivel + 1, !maximo));
-                estadoJuego->cambiarCasilla(estadoJuego->getLista()[i]->getFila(), estadoJuego->getLista()[i]->getColumna(), "_");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "_");
             }
         }
         return aux;
@@ -192,19 +231,33 @@ int main()
         }
 
     }
+    string op;
+    cout << "Elija que ficha jugara X o O: " << endl;
+    cin >> op;
+    if (op == "X")
+    {
+        jugador = "X";
+        computadora = "O";
+    }
+    else
+    {
+        jugador = "O";
+        computadora = "X";
+    }
     
-    Estado* estadoJuego= new Estado(tam);
-    estadoJuego->crearEstadoInicial();
-	Estado* estadoInicial = new Estado(tam);
-    estadoInicial->crearEstadoInicial();
-    int i = utilidad(estadoInicial);
+    Estado estadoJuego(tam);
+    estadoJuego.crearEstadoInicial();
+	Estado estadoInicial(tam);
+    estadoInicial.crearEstadoInicial();
+
+    bool i = terminalTest(estadoInicial);
     cout << "utilidad: " << i << endl;
-    estadoInicial->mostrarCasillas();
-    estadoJuego->cambiarCasilla(1, 'A', "X");
-    estadoJuego->cambiarCasilla(1, 'B', "X");
-    estadoJuego->cambiarCasilla(1, 'C', "X");
-    i=utilidad(estadoJuego);
+    estadoInicial.mostrarCasillas();
+    estadoJuego.cambiarCasilla(1, 'A', "X");
+    estadoJuego.cambiarCasilla(2, 'B', "X");
+    estadoJuego.cambiarCasilla(3, 'C', "X");
+    i= terminalTest(estadoJuego);
     cout << "utilidad: " << i << endl;
-    estadoJuego->mostrarCasillas();
+    estadoJuego.mostrarCasillas();
 }
 
