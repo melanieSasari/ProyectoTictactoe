@@ -3,11 +3,6 @@
 #include "Estado.h"
 int tam = 0;
 
-struct Accion
-{
-    int fila;
-    char col;
-};
 char jugador;
 char computadora;
 
@@ -63,25 +58,27 @@ int utilidad(Estado estadoJuego)
     for (int fil = 0;fil < tam;fil++)
     {
         aux = 0;
-        for (int col = fil;col < tam*tam-tam;col=col+tam)
+        ind = fil;
+        for (int col = 0;col < tam-1;col=col++)
         {
-            if (lista[col]->getValor() == lista[col + tam]->getValor())
+            if (lista[ind]->getValor() == lista[ind+tam]->getValor())
             {
                 aux++;
             }
-            if (aux == tam - 1 && lista[col+tam]->getValor() == 'X')
-            {
-                return +1;
-            }
-            else if (aux == tam - 1 && lista[col+tam]->getValor() == 'O')
-            {
-                return -1;
-            }
+            ind = ind + tam;
+        }
+        if (aux == tam - 1 && lista[ind]->getValor() == 'X')
+        {
+            return +1;
+        }
+        else if (aux == tam - 1 && lista[ind]->getValor() == 'O')
+        {
+            return -1;
         }
        
     }
     //verificar en diagonal
-   
+    aux = 0;
     for (int col = 0;col < tam * tam-tam;col = col + tam+1)
     {
         if (lista[col]->getValor() == lista[col+tam+1]->getValor())
@@ -98,7 +95,7 @@ int utilidad(Estado estadoJuego)
         }
     }
 
-    
+    aux = 0;
     //verificar en diagonal
     for (int col = tam-1;col < tam * tam-tam;col = col + tam - 1)
     {
@@ -254,7 +251,7 @@ void turnoComputadora(Estado estadoJuego)
     }
     
 }
-Accion preguntarCasilla()
+void turnoJugador(Estado estadoJuego)
 {
     int f;
     char c;
@@ -262,7 +259,39 @@ Accion preguntarCasilla()
     cin >> f;
     cout << "Ingrese la columna(a, b,.. N) : ";
     cin >> c;
-    return { f,c };
+    for (int i = 0;i < tam * tam;i++)
+    {
+        if (estadoJuego.getLista()[i]->getFila() == f && estadoJuego.getLista()[i]->getColumna() == c&& estadoJuego.getLista()[i]->getValor()=='_')
+        {
+            estadoJuego.getLista()[i]->setValor(jugador);
+        }
+    }
+    
+}
+void juego(Estado estadoJuego)
+{
+    while (!terminalTest(estadoJuego))
+    {
+        if (jugador == 'X')
+        {
+            turnoJugador(estadoJuego);
+            estadoJuego.mostrarCasillas();
+            cout << endl;
+            turnoComputadora(estadoJuego);
+            estadoJuego.mostrarCasillas();
+            cout << endl;
+        }
+        else
+        {
+            turnoComputadora(estadoJuego);
+            estadoJuego.mostrarCasillas();
+            cout << endl;
+            turnoJugador(estadoJuego);
+            estadoJuego.mostrarCasillas();
+            cout << endl;
+        }
+
+    }
 }
 int main()
 {
@@ -304,14 +333,6 @@ int main()
 	
     estadoInicial.crearEstadoInicial();
 
-    bool i = terminalTest(estadoInicial);
-    //cout << "utilidad: " << i << endl;
-    estadoInicial.mostrarCasillas();
-    estadoJuego.cambiarCasilla(1, 'A', 'X');
-    estadoJuego.cambiarCasilla(2, 'B', 'O');
-    turnoComputadora(estadoJuego);
-    //i= terminalTest(estadoJuego);
-    //cout << "utilidad: " << i << endl;
-    estadoJuego.mostrarCasillas();
+    juego(estadoJuego);
 }
 
