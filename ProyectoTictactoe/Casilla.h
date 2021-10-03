@@ -7,12 +7,12 @@ class Casilla
 private:
 	int fila;
 	char columna;
-	string valor;
+	char valor;
 public:
 	Casilla(int f, char c) {
 		this->fila = f;
 		this->columna = c;
-		valor = "_";
+		valor = '_';
 	}
 	~Casilla(){}
 	void mostrarCasilla() {
@@ -24,10 +24,10 @@ public:
 	char getColumna() {
 		return columna;
 	}
-	string getValor() {
+	char getValor() {
 		return valor;
 	}
-	void setValor(string v) {
+	void setValor(char v) {
 		valor = v;
 	}
 };

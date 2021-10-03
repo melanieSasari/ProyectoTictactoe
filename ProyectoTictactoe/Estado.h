@@ -8,7 +8,7 @@ private:
 public:
 	Estado(int t) {
 		this->TAM = t;
-		lista = new Casilla * [TAM];
+		lista = new Casilla * [TAM*TAM];
 	}
 	~Estado() {}
 	void crearEstadoInicial() {
@@ -34,7 +34,7 @@ public:
 			cout << endl;
 		}
 	}
-	void cambiarCasilla(int f, char c,string v) {
+	void cambiarCasilla(int f, char c,char v) {
 		for (int i = 0;i < TAM * TAM;i++)
 		{
 			if (lista[i]->getFila() == f && lista[i]->getColumna() == c)
@@ -48,7 +48,7 @@ public:
 		int ind = 0;
 		for (int i = 0;i < TAM * TAM;i++)
 		{
-			if (lista[i]->getValor()=="_")
+			if (lista[i]->getValor()=='_')
 			{
 				acciones[ind] = lista[i];
 				ind++;
@@ -58,7 +58,7 @@ public:
 	bool hayCasillasDisponibles() {
 		for (int i = 0;i < TAM * TAM;i++)
 		{
-			if (lista[i]->getValor() == "_")
+			if (lista[i]->getValor() == '_')
 			{
 				return true;
 			}

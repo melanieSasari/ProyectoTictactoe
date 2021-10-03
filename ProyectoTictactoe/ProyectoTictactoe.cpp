@@ -8,8 +8,8 @@ struct Accion
     int fila;
     char col;
 };
-string jugador;
-string computadora;
+char jugador;
+char computadora;
 
 int max(int num1, int num2) {
     int result;
@@ -37,27 +37,26 @@ int utilidad(Estado estadoJuego)
     Casilla** lista = estadoJuego.getLista();
     int aux = 0;
     //verificar por filas
-    int col = 0;
-    for (int fil = col;fil < tam ;fil++)
+    int ind = 0;
+    for (int fil = 0;fil < tam ;fil++)
     {
         aux = 0;
-        for (col = fil;col < tam - 1+fil;col++)
+        for (int col = 0;col < tam - 1;col++)
         {
-            if (lista[col]->getValor() == lista[col + 1]->getValor())
+            if (lista[ind]->getValor() == lista[ind + 1]->getValor())
             {
                 aux++;
             }
-            if (aux == tam - 1 && lista[col+1]->getValor() == "X")
-            {
-                return +1;
-            }
-            else if(aux == tam-1 && lista[col + 1]->getValor() == "O")
-            {
-                return -1;
-            }
+            ind++;
         } 
-        
-        
+        if (aux == tam - 1 && lista[ind]->getValor() == 'X')
+        {
+            return +1;
+        }
+        else if(aux == tam-1 && lista[ind]->getValor() == 'O')
+        {
+            return -1;
+        }
         
     }
     //verificar por columnas
@@ -70,11 +69,11 @@ int utilidad(Estado estadoJuego)
             {
                 aux++;
             }
-            if (aux == tam - 1 && lista[col+tam]->getValor() == "X")
+            if (aux == tam - 1 && lista[col+tam]->getValor() == 'X')
             {
                 return +1;
             }
-            else if (aux == tam - 1 && lista[col+tam]->getValor() == "O")
+            else if (aux == tam - 1 && lista[col+tam]->getValor() == 'O')
             {
                 return -1;
             }
@@ -89,11 +88,11 @@ int utilidad(Estado estadoJuego)
         {
             aux++;
         }
-        if (aux == tam - 1 && lista[col + tam + 1]->getValor() == "X")
+        if (aux == tam - 1 && lista[col + tam + 1]->getValor() == 'X')
         {
             return +1;
         }
-        else if (aux == tam - 1 && lista[col + tam + 1]->getValor() == "O")
+        else if (aux == tam - 1 && lista[col + tam + 1]->getValor() == 'O')
         {
             return -1;
         }
@@ -107,11 +106,11 @@ int utilidad(Estado estadoJuego)
         {
             aux++;
         }
-        if (aux == tam - 1 && lista[col + tam - 1]->getValor() == "X")
+        if (aux == tam - 1 && lista[col + tam - 1]->getValor() == 'X')
         {
             return +1;
         }
-        else if (aux == tam - 1 && lista[col + tam - 1]->getValor() == "O")
+        else if (aux == tam - 1 && lista[col + tam - 1]->getValor() == 'O')
         {
             return -1;
         }
@@ -124,7 +123,7 @@ bool terminalTest(Estado estadoJuego)
     int puntaje = utilidad(estadoJuego);
     if (puntaje == 1)
     {
-        if (jugador == "X")
+        if (jugador == 'X')
         {
             cout << "Tu ganaste!!!" << endl;
         }
@@ -136,7 +135,7 @@ bool terminalTest(Estado estadoJuego)
     }
     if (puntaje == -1)
     {
-        if (jugador == "O")
+        if (jugador == 'O')
         {
             cout << "Tu ganaste!!!" << endl;
         }
@@ -174,11 +173,11 @@ int minmax(Estado estadoJuego, int nivel, bool maximo)
         int aux = -1000;
         for (int i = 0;i < tam*tam;i++)
         {
-            if (estadoJuego.getLista()[i]->getValor() == "_")
+            if (estadoJuego.getLista()[i]->getValor() == '_')
             {
-                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(),"X");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(),'X');
                 aux = max(aux, minmax(estadoJuego, nivel + 1, !maximo));
-                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "_");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), '_');
             }
         }
         return aux;
@@ -188,19 +187,73 @@ int minmax(Estado estadoJuego, int nivel, bool maximo)
         int aux = 1000;
         for (int i = 0;i < tam * tam;i++)
         {
-            if (estadoJuego.getLista()[i]->getValor() == "_")
+            if (estadoJuego.getLista()[i]->getValor() == '_')
             {
-                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "O");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), 'O');
                 aux = max(aux, minmax(estadoJuego, nivel + 1, !maximo));
-                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), "_");
+                estadoJuego.cambiarCasilla(estadoJuego.getLista()[i]->getFila(), estadoJuego.getLista()[i]->getColumna(), '_');
             }
         }
         return aux;
     }
-
-
 }
+void turnoComputadora(Estado estadoJuego)
+{
+    int fila=0;
+    char columna=' ';
 
+    int valor;
+    if (computadora == 'X')
+    {
+        valor = -1000;
+        for (int i = 0;i < tam * tam;i++)
+        {
+            if (estadoJuego.getLista()[i]->getValor() == '_')
+            {
+                estadoJuego.getLista()[i]->setValor(computadora);
+                int valorAux = minmax(estadoJuego, 0, false);
+                estadoJuego.getLista()[i]->setValor('_');
+
+                if (valorAux > valor)
+                {
+                    fila = estadoJuego.getLista()[i]->getFila();
+                    columna = estadoJuego.getLista()[i]->getColumna();
+                    valor = valorAux;
+                }
+            }
+        }
+    }
+    else
+    {
+        valor = 1000;
+        for (int i = 0;i < tam * tam;i++)
+        {
+            if (estadoJuego.getLista()[i]->getValor() == '_')
+            {
+                estadoJuego.getLista()[i]->setValor(computadora);
+                int valorAux = minmax(estadoJuego, 0, true);
+                estadoJuego.getLista()[i]->setValor('_');
+
+                if (valorAux < valor)
+                {
+                    fila = estadoJuego.getLista()[i]->getFila();
+                    columna = estadoJuego.getLista()[i]->getColumna();
+                    valor = valorAux;
+                }
+            }
+        }
+    }
+    
+    
+    for (int i = 0;i < tam * tam;i++)
+    {
+        if (estadoJuego.getLista()[i]->getFila() == fila && estadoJuego.getLista()[i]->getColumna() == columna)
+        {
+            estadoJuego.getLista()[i]->setValor(computadora);
+        }
+    }
+    
+}
 Accion preguntarCasilla()
 {
     int f;
@@ -231,33 +284,34 @@ int main()
         }
 
     }
-    string op;
+    char op;
     cout << "Elija que ficha jugara X o O: " << endl;
     cin >> op;
-    if (op == "X")
+    if (op == 'X')
     {
-        jugador = "X";
-        computadora = "O";
+        jugador = 'X';
+        computadora = 'O';
     }
     else
     {
-        jugador = "O";
-        computadora = "X";
+        jugador = 'O';
+        computadora = 'X';
     }
     
     Estado estadoJuego(tam);
+    Estado estadoInicial(tam);
     estadoJuego.crearEstadoInicial();
-	Estado estadoInicial(tam);
+	
     estadoInicial.crearEstadoInicial();
 
     bool i = terminalTest(estadoInicial);
-    cout << "utilidad: " << i << endl;
+    //cout << "utilidad: " << i << endl;
     estadoInicial.mostrarCasillas();
-    estadoJuego.cambiarCasilla(1, 'A', "X");
-    estadoJuego.cambiarCasilla(2, 'B', "X");
-    estadoJuego.cambiarCasilla(3, 'C', "X");
-    i= terminalTest(estadoJuego);
-    cout << "utilidad: " << i << endl;
+    estadoJuego.cambiarCasilla(1, 'A', 'X');
+    estadoJuego.cambiarCasilla(2, 'B', 'O');
+    turnoComputadora(estadoJuego);
+    //i= terminalTest(estadoJuego);
+    //cout << "utilidad: " << i << endl;
     estadoJuego.mostrarCasillas();
 }
 
