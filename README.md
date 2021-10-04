@@ -16,3 +16,5 @@ For the MaxMin algorithm on the 3 by 3 board we were able to obtain an approxima
 For the MaxMin algorithm on the 4 by 4 board we were able to obtain an approximate time of 321 seconds due to the high response time it was not possible to make the necessary tests.
 
 4. Conclusions:
+The most difficult part was the algorithms and how they work but has the logic to implement the easy solution to this problems that has differents states, that it depends about 
+to differents objectives.
