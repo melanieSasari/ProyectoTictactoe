@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "Casilla.h"
 #include "Estado.h"
 int tam = 0;
@@ -196,6 +197,10 @@ int minmax(Estado estadoJuego, int nivel, bool maximo)
 }
 void turnoComputadora(Estado estadoJuego)
 {
+
+    unsigned t0, t1;
+
+    t0 = clock();
     int fila=0;
     char columna=' ';
 
@@ -249,7 +254,9 @@ void turnoComputadora(Estado estadoJuego)
             estadoJuego.getLista()[i]->setValor(computadora);
         }
     }
-    
+    t1 = clock();
+    double time = (double(t1 - t0) / CLOCKS_PER_SEC);
+    cout << "Tiempo en la toma de desicion: " << time << endl;
 }
 void turnoJugador(Estado estadoJuego)
 {
@@ -257,7 +264,7 @@ void turnoJugador(Estado estadoJuego)
     char c;
     cout << "Ingrese la fila(1, 2,.. N) : ";
     cin >> f;
-    cout << "Ingrese la columna(a, b,.. N) : ";
+    cout << "Ingrese la columna(A, B,.. N) : ";
     cin >> c;
     for (int i = 0;i < tam * tam;i++)
     {
