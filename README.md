@@ -10,7 +10,7 @@ The player can decide whether to start first or second, if tails is chosen the p
 To design the N in a line program, where the computer will make an intelligent decision about the state of the game, implementing the MinMax and MinMax+AlphaBeta Prunning algorithms and comparing the number of states and the time it takes for the computer to decide.
 3. Experiments and results
 Response time on the 3 by 3 board
-
+imagen:![image](https://user-images.githubusercontent.com/53119069/135788835-dec774b5-5848-4591-8dd1-45bad89af755.png)
 For the MaxMin algorithm on the 3 by 3 board we were able to obtain an approximate time of 0.034 seconds time tested in 10 trials.
 
 For the MaxMin algorithm on the 4 by 4 board we were able to obtain an approximate time of 321 seconds due to the high response time it was not possible to make the necessary tests.
@@ -18,3 +18,4 @@ For the MaxMin algorithm on the 4 by 4 board we were able to obtain an approxima
 4. Conclusions:
 The most difficult part was the algorithms and how they work but has the logic to implement the easy solution to this problems that has differents states, that it depends about 
 to differents objectives.
+
